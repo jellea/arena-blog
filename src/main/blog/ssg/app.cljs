@@ -23,8 +23,7 @@
                        (hb.compile)))
 
 (defn gen-post [{:keys [slug] :as post}]
-  (let [html (post-template (clj->js post)) 
-        _ (prn [html])]
+  (let [html (post-template (clj->js post))]
     (fs.writeFileSync (str "./.data/static/" slug ".html") html)))
 
 (defn item->slug [{:keys [generated_title id] :as item}]
@@ -43,7 +42,6 @@
                              (map item->slug))))
       (.then (fn [items] (doall (map gen-post items)) items))
       (.then gen-index)
-      (.then log)
       (.then (fn [] (js/process.exit)))))
         
 (defn main [& cli-args]
