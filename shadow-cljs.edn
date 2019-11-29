@@ -1,0 +1,17 @@
+;; shadow-cljs configuration
+{:source-paths
+ ["src/dev"
+  "src/main"
+  "src/test"]
+
+ :dependencies
+ []
+
+ :builds
+ {:ssg
+  {:target :node-script
+   :main blog.ssg.app/main
+   :output-to ".data/out/ssg.js"
+   }
+  }
+ }

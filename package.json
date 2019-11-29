@@ -1,0 +1,33 @@
+{
+  "//1": "describes your app and its dependencies",
+  "//2": "https://docs.npmjs.com/files/package.json",
+  "//3": "updating this file will download and update your packages",
+  "name": "hello-express",
+  "version": "0.0.1",
+  "description": "A simple Node app built on Express, instantly up and running.",
+  "main": "server.js",
+  "scripts": {
+    "prestart": "npx shadow-cljs compile ssg & node ./.data/out/ssg.js",
+    "//prestart": "node ./.data/out/ssg.js",
+    "start": "http-server ./.data/static -p 3000"
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "handlebars": "^4.1.2",
+    "http-server": "^0.11.1",
+    "node-fetch": "2.5.0",
+    "shadow-cljs": "2.8.36"
+  },
+  "engines": {
+    "node": "12"
+  },
+  "repository": {
+    "url": "https://glitch.com/edit/#!/hello-express"
+  },
+  "license": "MIT",
+  "keywords": [
+    "node",
+    "glitch",
+    "express"
+  ]
+}
