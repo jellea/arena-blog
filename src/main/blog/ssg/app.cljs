@@ -28,7 +28,7 @@
     (fs.writeFileSync (str "./.data/static/" slug ".html") html)))
 
 (defn item->slug [{:keys [generated_title id] :as item}]
-  (let [slug (slugify (str (.toLowerCase generated_title " " id)))]
+  (let [slug (slugify (str (.toLowerCase generated_title) " " id))]
     (assoc item :slug slug)))
 
 (defn gen-site []
