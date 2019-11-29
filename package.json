@@ -1,16 +1,16 @@
 {
-  "//1": "describes your app and its dependencies",
-  "//2": "https://docs.npmjs.com/files/package.json",
-  "//3": "updating this file will download and update your packages",
-  "name": "hello-express",
+  "name": "arena-ssg",
   "version": "0.0.1",
-  "description": "A simple Node app built on Express, instantly up and running.",
+  "description": "SSG for Are.na",
   "scripts": {
-    "prestart": "npm i && npx shadow-cljs compile ssg && node ./.data/out/ssg.js"
+    "prestart": "npx shadow-cljs compile ssg && node ./.data/out/ssg.js"
   },
   "dependencies": {
     "express": "^4.16.4",
     "handlebars": "^4.1.2",
+    "helper-markdown": "^1.0.0",
+    "markdown-it": "^10.0.0",
+    "marked": "^0.7.0",
     "node-fetch": "2.5.0",
     "shadow-cljs": "2.8.36"
   },
