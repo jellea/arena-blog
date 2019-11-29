@@ -6,13 +6,13 @@
     "prestart": "npx shadow-cljs compile ssg && node ./.data/out/ssg.js"
   },
   "dependencies": {
-    "express": "^4.16.4",
-    "handlebars": "^4.1.2",
+    "handlebars": "^4.5.3",
     "helper-markdown": "^1.0.0",
     "markdown-it": "^10.0.0",
     "marked": "^0.7.0",
-    "node-fetch": "2.5.0",
-    "shadow-cljs": "2.8.36"
+    "node-fetch": "2.6.0",
+    "shadow-cljs": "2.8.76",
+    "slugify": "^1.3.6"
   },
   "engines": {
     "node": "12"
