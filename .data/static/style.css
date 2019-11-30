@@ -9,10 +9,10 @@ body {
   font-family: 'IBM Plex Sans', sans-serif;
   margin:auto;
   font-size: 18px;
+  padding: 0.7em;
 }
 
 .index {
-  padding-top: 4em;
   text-align: center;
   background-color: var(--primary);
 }
@@ -23,8 +23,7 @@ body {
 
 h1 {
   font-weight: 400;
-  font-size: 3em;
-  line-height: 1.5em;
+  line-height: 1.7em;
 }
 
 .post h1 {
@@ -38,4 +37,14 @@ h1 a {
 
 section {
   margin-bottom: 3em;
+}
+
+@media (min-height: 680px){
+  .index {
+    padding-top: 4em;
+  }
+
+  h1 {
+    font-size: 3em;
+  }
 }
