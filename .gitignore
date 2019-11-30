@@ -2,3 +2,4 @@ node-modules
 .shadow-cljs
 .data/out
 .data/static/*.html
+.env
