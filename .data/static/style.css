@@ -2,9 +2,9 @@
 
 :root {
   --primary: #3c3cff;
-  --primary-secondary: #4f4fff;
+  --primary-secondary: #424242;
   --secondary: white;
-  --secondary-tertiary: #3232e6;
+  --secondary-tertiary: #28286d;
   --tertiary: #222;
 }
 
@@ -17,7 +17,7 @@ body {
 
 .index {
   text-align: center;
-  background-color: var(--primary);
+  background-color: var(--tertiary);
   text-transform: lowercase;
 }
 
@@ -55,7 +55,7 @@ h1 a:visited .deco {
   top: 5px;
   left: 0;
   width: 100%;
-  color: var(--tertiary);
+  color: var(--primary);
   font-family: Astloch;
   text-transform: none;
 }
