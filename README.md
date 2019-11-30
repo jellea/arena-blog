@@ -6,7 +6,7 @@ Still WIP, expect some shuffling with folders and functions still.
 - [x] Static site generator with Are.na as content backend.
 - [x] Generate index + post pages from text blocks.
 - [x] Netlify ready.
-- [x] Youtube (and Bandcamp) embeds render.
+- [x] Youtube (and Bandcamp) embeds render (use `{{{:youtube NeWhd3dcplM}}}`).
 - [ ] Support image blocks.
 - [ ] RSS feed generator.
 
