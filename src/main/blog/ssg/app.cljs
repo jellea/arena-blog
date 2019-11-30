@@ -1,16 +1,32 @@
-(ns blog.ssg.app)
+(ns blog.ssg.app
+  (:require [clojure.string :as string]))
 
+(def hrstart (js/process.hrtime))
+
+(def dotenv (.config (js/require "dotenv")))
 (def fetch (js/require "node-fetch"))
 (def hb (js/require "handlebars"))
 (def fs (js/require "fs"))
-(def md (js/require "marked"))
 (def slugify (js/require "slugify"))
 
 (def token js/process.env.ARENA_ACCESS_TOKEN)
+(def channel-slug js/process.env.ARENA_CHANNEL_SLUG)
 
-(defn log [x]
-  (prn x)
-  x)
+(assert channel-slug "You need to set the channel as a environment variable named ARENA_CHANNEL_SLUG. For example: words-e6vp8lael4m")
+
+
+;; <iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=2639239996/size=large/bgcol=333333/linkcol=0f91ff/tracklist=false/artwork=small/transparent=true/" seamless><a href="http://omlott.bandcamp.com/album/inhale-volume-i">Inhale - Volume I by Luft (Mats Gustafsson &amp; Erwan Keravec)</a></iframe>
+
+(def media-embed-codes 
+  {":bandcamp" (fn [id] (str "<iframe style=\"border: 0; width: 100%; height: 120px;\" src=\"https://bandcamp.com/EmbeddedPlayer/album=" id "/size=large/bgcol=333333/linkcol=3c3cff/tracklist=false/artwork=small/transparent=true/\" seamless><a></a></iframe>"))
+   ":youtube" (fn [id] (str "<iframe width=\"100%\" height=\"335\" src=\"https://www.youtube-nocookie.com/embed/" id "\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>"))})
+
+(defn media-embed [_match source id]
+  (let [embed-code (get media-embed-codes source)]
+    (embed-code id)))
+
+(defn media-parser [{:keys [content_html] :as item}]
+  (update item :content_html string/replace-all #"\{\{\{(\S+) (\S+)\}\}\}" media-embed))
 
 (defn gen-index [items]
   (let [template (fs.readFileSync "./views/index.html" #js {"encoding" "utf8"})
@@ -31,18 +47,22 @@
     (assoc item :slug slug)))
 
 (defn gen-site []
-  (-> (fetch "https://api.are.na/v2/channel/words-e6vp8lael4m/feed" #js {"headers" #js {"access_token" token}})
+  (-> (fetch (str "https://api.are.na/v2/channel/" channel-slug "/feed") 
+             #js {"headers" #js {"access_token" token}})
       (.then (fn [res] (.json res)))
       (.then (fn [json] (js->clj json :keywordize-keys true)))
       (.then (fn [data] (->> data 
                              :items
                              (filter #(= "Text" (-> % :item :class)))
-                             (map #(-> % :item (select-keys [:generated_title :content :id :updated_at])))
-                             (map #(update % :content md))
+                             (map #(-> % :item (select-keys [:generated_title :content_html :id :updated_at])))
+			     (map media-parser)
                              (map item->slug))))
       (.then (fn [items] (doall (map gen-post items)) items))
       (.then gen-index)
-      (.then (fn [] (js/process.exit)))))
+      (.then (fn []
+	(let [[s ms] (js/process.hrtime hrstart)]
+          (js/console.info "Succesfully generated blog in %ds %dms" s, (/ ms 1000000)))
+        (js/process.exit)))))
         
 (defn main [& cli-args]
   (gen-site))
