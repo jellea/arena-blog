@@ -6,13 +6,19 @@
   --secondary: white;
   --secondary-tertiary: #28286d;
   --tertiary: #222;
+  --primary-font:'IBM Plex Sans', sans-serif;
+  --secondary-font: Astloch, cursive;
 }
 
 body {
-  font-family: 'IBM Plex Sans', sans-serif;
+  font-family: var(--primary-font);
   margin:auto;
   font-size: 18px;
   padding: 0.7em;
+}
+
+p {
+  line-height: 1.5;
 }
 
 .index {
@@ -56,7 +62,7 @@ h1 a:visited .deco {
   left: 0;
   width: 100%;
   color: var(--primary);
-  font-family: Astloch;
+  font-family: var(--secondary-font);
   text-transform: none;
 }
 
@@ -65,10 +71,7 @@ h1 a:visited .deco {
   position:relative;
   text-align: center;
   margin: 1.7em 0;
-}
-
-.post h1:hover:after {
-  display:none
+  cursor: pointer;
 }
 
 .post h1:after {
@@ -78,9 +81,16 @@ h1 a:visited .deco {
   left: 0;
   width: 100%;
   color: var(--tertiary);
-  font-family: Astloch;
+  font-family: var(--secondary-font);
   text-transform: none;
   opacity: 0.8;
+}
+
+.post h1:hover:after {
+  content: "click to go back";
+  font-size: 0.3em;
+  top: -3em;
+  font-family: var(--primary-font); 
 }
 
 h1 a {
@@ -95,7 +105,7 @@ article {
 blockquote {
   border-left: 3px var(--primary) solid;
   padding-left: 1em;
-  margin-left: 0;
+  margin: 2em 0;
 }
 
 @media (min-height: 680px){
