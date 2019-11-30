@@ -1,8 +1,11 @@
-@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Astloch|IBM+Plex+Sans:400,700&display=swap');
 
 :root {
   --primary: #3c3cff;
+  --primary-secondary: #4f4fff;
   --secondary: white;
+  --secondary-tertiary: #3232e6;
+  --tertiary: #222;
 }
 
 body {
@@ -15,6 +18,7 @@ body {
 .index {
   text-align: center;
   background-color: var(--primary);
+  text-transform: lowercase;
 }
 
 .post {
@@ -26,8 +30,57 @@ h1 {
   line-height: 1.7em;
 }
 
+h1 a {
+  position: relative;
+}
+
+h1 a:hover:visited {
+  color: var(--secondary);
+}
+
+h1 a:hover .deco {
+  display:none;
+}
+
+h1 a:visited { 
+  color: var(--primary-secondary);
+}
+
+h1 a:visited .deco {
+  color: var(--secondary-tertiary);  
+}
+
+.deco {
+  position: absolute;
+  top: 5px;
+  left: 0;
+  width: 100%;
+  color: var(--tertiary);
+  font-family: Astloch;
+  text-transform: none;
+}
+
 .post h1 {
   color: var(--primary);
+  position:relative;
+  text-align: center;
+  margin: 1.7em 0;
+}
+
+.post h1:hover:after {
+  display:none
+}
+
+.post h1:after {
+  content: attr(content);
+  position: absolute;
+  top: 0.3em;
+  left: 0;
+  width: 100%;
+  color: var(--tertiary);
+  font-family: Astloch;
+  text-transform: none;
+  opacity: 0.8;
 }
 
 h1 a {
@@ -35,7 +88,7 @@ h1 a {
   text-decoration: none;
 }
 
-section {
+article {
   margin-bottom: 3em;
 }
 
