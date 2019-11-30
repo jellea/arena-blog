@@ -4,8 +4,8 @@
   "src/main"
   "src/test"]
 
- :dependencies
- []
+ :dependencies []
+ :cache-root ".cache"
 
  :builds
  {:ssg
