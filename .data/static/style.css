@@ -39,6 +39,12 @@ section {
   margin-bottom: 3em;
 }
 
+blockquote {
+  border-left: 3px var(--primary) solid;
+  padding-left: 1em;
+  margin-left: 0;
+}
+
 @media (min-height: 680px){
   .index {
     padding-top: 4em;
