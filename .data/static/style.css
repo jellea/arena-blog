@@ -72,6 +72,7 @@ h1 a:visited .deco {
   text-align: center;
   margin: 1.7em 0;
   cursor: pointer;
+  text-transform: lowercase;
 }
 
 .post h1:after {
@@ -84,6 +85,7 @@ h1 a:visited .deco {
   font-family: var(--secondary-font);
   text-transform: none;
   opacity: 0.8;
+  text-transform: none;
 }
 
 .post h1:hover:after {
