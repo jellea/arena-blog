@@ -1,0 +1,12 @@
+[build]
+  command = "npm run prestart"
+  functions = "functions"
+  publish = ".data/static"
+
+[build.processing]
+  skip_processing = false
+[build.processing.css]
+  bundle = true
+  minify = true
+[build.processing.html]
+  pretty_urls = true

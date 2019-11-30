@@ -1,5 +1,5 @@
-node-modules
-.shadow-cljs
+.cache
+node_modules
 .data/out
 .data/static/*.html
 .env
