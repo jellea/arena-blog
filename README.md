@@ -7,8 +7,8 @@ Still WIP, expect some shuffling with folders and functions still.
 - [x] Generate index + post pages from text blocks.
 - [x] Netlify ready.
 - [x] Youtube (and Bandcamp) embeds render (use `{{{:youtube NeWhd3dcplM}}}`).
+- [X] RSS feed generator.
 - [ ] Support image blocks.
-- [ ] RSS feed generator.
 
 ### Demo
 This is being used by my personal blog [jelle.io](https://jelle.io) based on my ["Words" Are.na channel](https://www.are.na/jelle-ack/words-e6vp8lael4m).
