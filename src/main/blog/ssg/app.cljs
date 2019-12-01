@@ -57,7 +57,7 @@
       (.then (fn [data] (->> data 
                              :items
                              (filter #(= "Text" (-> % :item :class)))
-                             (map #(-> % :item (select-keys [:generated_title :content_html :id :updated_at :created_at])))
+                             (map #(-> % :item (select-keys [:generated_title :content :content_html :id :updated_at :created_at])))
                              (map #(assoc % :created_at_rfc822 (-> (:created_at %) (js/Date.) (.toUTCString))))
 			     (map media-parser)
                              (map item->slug))))
