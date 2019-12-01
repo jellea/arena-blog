@@ -6,7 +6,7 @@
     "prestart": "npx shadow-cljs compile ssg && node ./.data/out/ssg.js"
   },
   "dependencies": {
-    "dotenv": "^8.2.0",
+    "dotenv": "8.2.0",
     "handlebars": "^4.5.3",
     "helper-markdown": "^1.0.0",
     "node-fetch": "2.6.0",
