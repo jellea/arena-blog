@@ -14,9 +14,6 @@
 
 (assert channel-slug "You need to set the channel as a environment variable named ARENA_CHANNEL_SLUG. For example: words-e6vp8lael4m")
 
-
-;; <iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=2639239996/size=large/bgcol=333333/linkcol=0f91ff/tracklist=false/artwork=small/transparent=true/" seamless><a href="http://omlott.bandcamp.com/album/inhale-volume-i">Inhale - Volume I by Luft (Mats Gustafsson &amp; Erwan Keravec)</a></iframe>
-
 (def media-embed-codes 
   {":bandcamp" (fn [id] (str "<iframe style=\"border: 0; width: 100%; height: 120px;\" src=\"https://bandcamp.com/EmbeddedPlayer/album=" id "/size=large/bgcol=333333/linkcol=3c3cff/tracklist=false/artwork=small/transparent=true/\" seamless><a></a></iframe>"))
    ":youtube" (fn [id] (str "<iframe width=\"100%\" height=\"335\" src=\"https://www.youtube-nocookie.com/embed/" id "\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>"))})
@@ -32,6 +29,12 @@
   (let [template (fs.readFileSync "./views/index.html" #js {"encoding" "utf8"})
         html ((hb.compile template) (clj->js {:items items}))]
     (fs.writeFileSync "./.data/static/index.html" html))
+    items)
+
+(defn gen-rss [items]
+  (let [template (fs.readFileSync "./views/rss.xml" #js {"encoding" "utf8"})
+        xml ((hb.compile template) (clj->js {:items items}))]
+    (fs.writeFileSync "./.data/static/rss.xml" xml))
     items)
 
 (def post-template (-> "./views/post.html" 
@@ -54,12 +57,14 @@
       (.then (fn [data] (->> data 
                              :items
                              (filter #(= "Text" (-> % :item :class)))
-                             (map #(-> % :item (select-keys [:generated_title :content_html :id :updated_at])))
+                             (map #(-> % :item (select-keys [:generated_title :content_html :id :updated_at :created_at])))
+                             (map #(assoc % :created_at_rfc822 (-> (:created_at %) (js/Date.) (.toUTCString))))
 			     (map media-parser)
                              (map item->slug))))
       (.then (fn [items] (doall (map gen-post items)) items))
       (.then gen-index)
-      (.then (fn []
+      (.then gen-rss)
+      (.then (fn [items]
 	(let [[s ms] (js/process.hrtime hrstart)]
           (js/console.info "Succesfully generated blog in %ds %dms" s, (/ ms 1000000)))
         (js/process.exit)))))
