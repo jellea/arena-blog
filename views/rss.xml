@@ -4,6 +4,7 @@
   <title>Jelle's Blog</title>
   <link>https://jelle.io/</link>
   <description>Here are some of my words, without fact checking, but with typos.</description>
+  <atom:link href="https://jelle.io/rss.xml" rel="self" type="application/rss+xml" />
   <language>en-uk</language>
 
   {{#each items}}
