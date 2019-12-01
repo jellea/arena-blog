@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<channel>
+  <title>Jelle's Blog</title>
+  <link>https://jelle.io/</link>
+  <description>Here are some of my words, without fact checking, but with typos.</description>
+  <atom:link href="https://jelle.io/rss.xml" rel="self" type="application/rss+xml" />
+  <language>en-uk</language>
+
+  {{#each items}}
+  <item>
+    <title>{{generated_title}}</title>
+    <link>https://jelle.io/{{slug}}</link>
+    <pubDate>{{created_at_rfc822}}</pubDate>
+    <guid>https://jelle.io/{{slug}}</guid>
+    <description>{{content}}</description>
+    <content:encoded><![CDATA[{{{content_html}}}]]></content:encoded>
+  </item>
+  {{/each}}
+</channel>
+
+</rss>
