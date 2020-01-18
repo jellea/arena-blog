@@ -27,7 +27,7 @@
    ":youtube" (fn [id] (str "<iframe width=\"100%\" height=\"335\" src=\"https://www.youtube-nocookie.com/embed/" id "\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>"))})
 
 (defn media-embed [_match source id]
-  (let [embed-code (get media-embed-codes (keyword source)]
+  (let [embed-code (get media-embed-codes source)]
     (embed-code id)))
 
 (defn media-parser [item]
