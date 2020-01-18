@@ -13,6 +13,7 @@ body {
   margin:auto;
   font-size: 18px;
   padding: 0.7em;
+  overflow-x: hidden;
 }
 
 p {

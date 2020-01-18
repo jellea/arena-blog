@@ -1,5 +1,6 @@
 (ns blog.ssg.app
-  (:require [clojure.string :as string]))
+  (:require [clojure.string :as string]
+            [cljs.reader :as reader]))
 
 (def hrstart (js/process.hrtime))
 
@@ -14,16 +15,23 @@
 
 (assert channel-slug "You need to set the channel as a environment variable named ARENA_CHANNEL_SLUG. For example: words-e6vp8lael4m")
 
+(defn parse-edn [s]
+  (-> (string/replace-all s #"<.+>(.+)<.+>" (fn [m i] i)) ;; strip html tags around urls, because of are.na :(
+      (reader/read-string)))
+
 (def media-embed-codes 
-  {":bandcamp" (fn [id] (str "<iframe style=\"border: 0; width: 100%; height: 120px;\" src=\"https://bandcamp.com/EmbeddedPlayer/album=" id "/size=large/bgcol=333333/linkcol=3c3cff/tracklist=false/artwork=small/transparent=true/\" seamless><a></a></iframe>"))
+  {":image" (fn [edn]
+              (let [{:keys [url align style class]} (parse-edn (str edn "}"))]
+                (str "<img src=\"" url "\" style=\"" style "\" class=\"" class "\" align=\"" align "\">")))
+   ":bandcamp" (fn [id] (str "<iframe style=\"border: 0; width: 100%; height: 120px;\" src=\"https://bandcamp.com/EmbeddedPlayer/album=" id "/size=large/bgcol=333333/linkcol=3c3cff/tracklist=false/artwork=small/transparent=true/\" seamless><a></a></iframe>"))
    ":youtube" (fn [id] (str "<iframe width=\"100%\" height=\"335\" src=\"https://www.youtube-nocookie.com/embed/" id "\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>"))})
 
 (defn media-embed [_match source id]
-  (let [embed-code (get media-embed-codes source)]
+  (let [embed-code (get media-embed-codes (keyword source)]
     (embed-code id)))
 
-(defn media-parser [{:keys [content_html] :as item}]
-  (update item :content_html string/replace-all #"\{\{\{(\S+) (\S+)\}\}\}" media-embed))
+(defn media-parser [item]
+  (update item :content_html string/replace-all #"<p>\{{3}(\S+) (.+?)\}{3}" media-embed))
 
 (defn gen-index [items]
   (let [template (fs.readFileSync "./views/index.html" #js {"encoding" "utf8"})
@@ -50,16 +58,16 @@
     (assoc item :slug slug)))
 
 (defn gen-site []
-  (-> (fetch (str "https://api.are.na/v2/channel/" channel-slug "/feed") 
-             #js {"headers" #js {"access_token" token}})
+  (-> (fetch (str "https://api.are.na/v2/channels/" channel-slug)
+             #js {"headers" #js {"Authorization" (str "Bearer " token)}})
       (.then (fn [res] (.json res)))
       (.then (fn [json] (js->clj json :keywordize-keys true)))
-      (.then (fn [data] (->> data 
-                             :items
-                             (filter #(= "Text" (-> % :item :class)))
-                             (map #(-> % :item (select-keys [:generated_title :content :content_html :id :updated_at :created_at])))
+      (.then (fn [data] (->> data
+                             :contents
+                             (filter #(= "Text" (-> % :class)))
+                             (map #(-> % (select-keys [:generated_title :content :content_html :id :updated_at :created_at])))
                              (map #(assoc % :created_at_rfc822 (-> (:created_at %) (js/Date.) (.toUTCString))))
-			     (map media-parser)
+                             (map media-parser)
                              (map item->slug))))
       (.then (fn [items] (doall (map gen-post items)) items))
       (.then gen-index)
