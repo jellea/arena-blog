@@ -14,10 +14,11 @@
   <body class="post">
   <article>
     {{{content_html}}}
+    <p style="font-style:italic; padding-top:2em;">Published at {{{created_at_rfc822}}}</p>
   </article>
   <p>Leave a comment on <a href="https://www.are.na/block/{{id}}">Are.na</a></p>
   <p><a href="index.html">← back</a></p>
-  <script>
+<script>
     h = document.querySelector("h1");
     h.setAttribute("content", h.textContent);
     h.setAttribute("onclick", "window.location = '/'");
